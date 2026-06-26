@@ -82,15 +82,14 @@
     text-align:center;
   }
   .pr-title{
-    font-size:23px;
+    font-size:clamp(15px, 5.2vw, 22px);
     font-weight:800;
     margin:0;
     line-height:1.2;
-    display:flex;
-    justify-content:space-between;
-    width:100%;
+    letter-spacing:.045em;
+    word-spacing:.06em;
+    white-space:nowrap;
   }
-  .pr-title span{ display:inline-block; }
   .programme-row.navy .pr-title{
     background: linear-gradient(90deg, #ffffff 0%, var(--cyan) 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#fff;
@@ -109,9 +108,6 @@
   }
   .programme-row.navy .pr-sub{ color:rgba(255,255,255,0.55); }
   .programme-row.white .pr-sub{ color:var(--cyan-deep); }
-  @media(max-width:360px){
-    .pr-title{font-size:18px;}
-  }
   .icon-btn{
     width:36px;height:36px;border-radius:10px;
     background:rgba(255,255,255,0.08);
@@ -490,7 +486,7 @@
   </div>
 
   <div class="programme-row white">
-    <div class="pr-title"><span>Shangri-La</span><span>Longevity</span><span>Courtyard</span></div>
+    <div class="pr-title">Shangri-La Longevity Courtyard</div>
     <div class="pr-sub">SPPB Functional Assessment</div>
   </div>
 
