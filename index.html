@@ -77,13 +77,20 @@
     border-bottom:1px solid var(--line);
     box-shadow: 0 2px 8px rgba(0,48,87,0.06);
   }
-  .pr-title{
-    font-size:19px;
-    font-weight:800;
-    letter-spacing:.01em;
-    margin:0;
-    line-height:1.25;
+  .programme-row{
+    padding:14px 20px 15px;
+    text-align:center;
   }
+  .pr-title{
+    font-size:23px;
+    font-weight:800;
+    margin:0;
+    line-height:1.2;
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+  }
+  .pr-title span{ display:inline-block; }
   .programme-row.navy .pr-title{
     background: linear-gradient(90deg, #ffffff 0%, var(--cyan) 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#fff;
@@ -93,16 +100,17 @@
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--navy);
   }
   .pr-sub{
-    font-size:10.5px;
+    font-size:11px;
     font-weight:700;
-    letter-spacing:.14em;
+    letter-spacing:.22em;
     text-transform:uppercase;
-    margin-top:4px;
+    margin-top:5px;
+    text-align:center;
   }
   .programme-row.navy .pr-sub{ color:rgba(255,255,255,0.55); }
   .programme-row.white .pr-sub{ color:var(--cyan-deep); }
   @media(max-width:360px){
-    .pr-title{font-size:16.5px;}
+    .pr-title{font-size:18px;}
   }
   .icon-btn{
     width:36px;height:36px;border-radius:10px;
@@ -482,7 +490,7 @@
   </div>
 
   <div class="programme-row white">
-    <div class="pr-title">Shangri-La Longevity Courtyard</div>
+    <div class="pr-title"><span>Shangri-La</span><span>Longevity</span><span>Courtyard</span></div>
     <div class="pr-sub">SPPB Functional Assessment</div>
   </div>
 
