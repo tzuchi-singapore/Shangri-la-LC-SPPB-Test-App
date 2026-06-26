@@ -984,7 +984,7 @@ function viewInfo(){
       <div class="row2">
         <div class="field">
           <label class="field-label">Date of birth</label>
-          <input type="date" id="inDob" value="${esc(c.dob)}">
+          <input type="date" id="inDob" value="${esc(c.dob)}" min="1910-01-01" max="${new Date().toISOString().slice(0,10)}">
         </div>
         <div class="field">
           <label class="field-label">Sex</label>
@@ -1003,7 +1003,7 @@ function viewInfo(){
       <div class="row2">
         <div class="field">
           <label class="field-label">Date of test</label>
-          <input type="date" id="inTestDate" value="${esc(c.testDate)}">
+          <input type="date" id="inTestDate" value="${esc(c.testDate)}" min="2020-01-01" max="${new Date().toISOString().slice(0,10)}">
         </div>
         <div class="field">
           <label class="field-label">Assessment type</label>
@@ -1053,6 +1053,17 @@ function afterRenderInfo(){
   document.getElementById('saveInfoBtn').addEventListener('click', async ()=>{
     if(!state.client.name.trim()){ toast('Please enter the client\'s name.', 'error'); return; }
     if(!state.client.dob){ toast('Please enter date of birth — needed for grip strength scoring.', 'error'); return; }
+    const dobYear = parseInt(state.client.dob.slice(0,4), 10);
+    const thisYear = new Date().getFullYear();
+    if(dobYear < 1910 || dobYear > thisYear){
+      toast(`That date of birth (${state.client.dob}) doesn't look right — please re-pick it.`, 'error');
+      return;
+    }
+    const ageCheck = calcAge(state.client.dob);
+    if(ageCheck < 0 || ageCheck > 115){
+      toast('That date of birth gives an unusual age — please double check it.', 'error');
+      return;
+    }
     const btn = document.getElementById('saveInfoBtn');
     btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span> Saving…';
     const ok = await saveRecord(true);
@@ -1916,6 +1927,16 @@ function closeModal(){
   document.getElementById('modalOverlay').classList.remove('show');
 }
 
+function csvDateFormat(isoDate){
+  // Format as "25-Jun-2026" instead of raw ISO — Excel still treats this as text-safe
+  // and won't shrink/misjudge the column width the way it does with auto-detected date serials.
+  if(!isoDate) return '';
+  const d = new Date(isoDate + 'T00:00:00');
+  if(isNaN(d.getTime())) return isoDate;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d.getDate().toString().padStart(2,'0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+}
+
 function downloadCSV(records){
   const headers = ['Name','DOB','Age','Sex','Mobile','Test Date','Phase','Batch',
     'C1 Stands','C1 Pass','C2 Left (s)','C2 Right (s)','C2 Pass',
@@ -1930,7 +1951,7 @@ function downloadCSV(records){
     const c3interp = c3score!=='' ? sitRiseInterpret(c3score).label : '';
     const gripPass = (leftBest!==null && rightBest!==null && threshold!=='') ? ((leftBest>=threshold && rightBest>=threshold)?'Yes':'No') : '';
     return [
-      r.name, r.dob, age??'', r.sex, r.mobile, r.test_date, r.phase, r.batch||'',
+      r.name, csvDateFormat(r.dob), age??'', r.sex, r.mobile, csvDateFormat(r.test_date), r.phase, r.batch||'',
       r.c1_reps??'', r.c1_completed ? (r.c1_reps>=14?'Yes':'No') : '',
       r.c2_left_seconds??'', r.c2_right_seconds??'',
       (r.c2_left_completed && r.c2_right_completed) ? ((r.c2_left_seconds>=10 && r.c2_right_seconds>=10)?'Yes':'No') : '',
@@ -1945,7 +1966,8 @@ function downloadCSV(records){
     }).join(',')
   ).join('\n');
 
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  // Prefix a UTF-8 BOM so Excel reads names/special characters correctly on Windows
+  const blob = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const stamp = new Date().toISOString().slice(0,10);
