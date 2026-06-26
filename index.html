@@ -61,60 +61,48 @@
   .brand-logos{display:flex; align-items:center; gap:10px; flex-shrink:0; background:#fff; padding:6px 12px; border-radius:10px;}
   .brand-logos img{height:26px; display:block;}
   .brand-logos .divider{width:1px; height:22px; background:var(--line);}
-  .topbar-title{font-size:14px; font-weight:700; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .topbar-sub{font-size:10.5px; color:rgba(255,255,255,0.6); font-weight:500; letter-spacing:.04em; text-transform:uppercase;}
   .topbar-right{display:flex; align-items:center; gap:8px; flex-shrink:0;}
 
-  .programme-banner{
-    background: linear-gradient(180deg, #002445 0%, #001830 100%);
-    padding:11px 18px 12px;
+  /* Programme title row — full width, sits below the logo bar */
+  .programme-row{
+    padding:12px 18px 13px;
     text-align:center;
-    position:relative;
-    border-bottom:1px solid rgba(212,175,90,0.25);
-    overflow:hidden;
   }
-  .programme-banner::before{
-    content:'';
-    position:absolute; inset:0;
-    background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(212,175,90,0.10) 0%, transparent 70%);
-    pointer-events:none;
+  .programme-row.navy{
+    background: linear-gradient(180deg, var(--navy-soft) 0%, var(--navy) 100%);
+    border-bottom:1px solid rgba(255,255,255,0.08);
   }
-  .programme-title{
-    position:relative;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size:16.5px;
-    font-weight:700;
-    letter-spacing:.035em;
-    text-transform:uppercase;
+  .programme-row.white{
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    box-shadow: 0 2px 8px rgba(0,48,87,0.06);
+  }
+  .pr-title{
+    font-size:19px;
+    font-weight:800;
+    letter-spacing:.01em;
     margin:0;
-    line-height:1.28;
-    background: linear-gradient(180deg, #F5E2AC 0%, #D4AF5A 45%, #B8893A 55%, #E8CB80 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-    color:#D4AF5A;
-    text-shadow:
-      0 1px 0 rgba(255,255,255,0.25),
-      0 2px 3px rgba(0,0,0,0.55),
-      0 0 18px rgba(212,175,90,0.18);
-    filter: drop-shadow(0 1px 0 rgba(255,255,255,0.15));
+    line-height:1.25;
   }
-  .programme-subtitle{
-    position:relative;
-    font-size:9px;
-    font-weight:600;
-    letter-spacing:.16em;
+  .programme-row.navy .pr-title{
+    background: linear-gradient(90deg, #ffffff 0%, var(--cyan) 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#fff;
+  }
+  .programme-row.white .pr-title{
+    background: linear-gradient(90deg, var(--navy) 0%, var(--cyan-deep) 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--navy);
+  }
+  .pr-sub{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.14em;
     text-transform:uppercase;
-    color:rgba(212,175,90,0.55);
     margin-top:4px;
   }
-  .programme-divider{
-    position:relative;
-    width:38px; height:1px; margin:5px auto 0;
-    background: linear-gradient(90deg, transparent, #D4AF5A 50%, transparent);
-  }
+  .programme-row.navy .pr-sub{ color:rgba(255,255,255,0.55); }
+  .programme-row.white .pr-sub{ color:var(--cyan-deep); }
   @media(max-width:360px){
-    .programme-title{font-size:14.5px; letter-spacing:.02em;}
+    .pr-title{font-size:16.5px;}
   }
   .icon-btn{
     width:36px;height:36px;border-radius:10px;
@@ -493,10 +481,9 @@
     </div>
   </div>
 
-  <div class="programme-banner">
-    <div class="programme-title">Shangri-La Longevity Courtyard</div>
-    <div class="programme-divider"></div>
-    <div class="programme-subtitle">SPPB Functional Assessment</div>
+  <div class="programme-row white">
+    <div class="pr-title">Shangri-La Longevity Courtyard</div>
+    <div class="pr-sub">SPPB Functional Assessment</div>
   </div>
 
   <div class="nav-tabs" id="navTabs">
